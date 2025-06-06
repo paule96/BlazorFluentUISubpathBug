@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <PublishAot>true</PublishAot>
+  </PropertyGroup>
+  <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.0" />
+      <PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
+  </ItemGroup>
+  <Target Condition="'$(Configuration)'=='Release'" Name="AddProcessEngineFrontend" AfterTargets="AfterBuild">
+        <Delete Files="$(OutDir)/wwwroot/" />
+        <Exec WorkingDirectory="../BlazorApp1/" Command="dotnet publish --sc -c Release /p:RunAOTCompilation=true /p:WasmStripILAfterAOT=true" />
+        <MakeDir Directories="$(OutDir)/wwwroot/blazorapp1" />
+        <Copy SourceFolders="../BlazorApp1/bin/Release/net9.0/publish/wwwroot/blazorapp1/" DestinationFolder="$(ProjectDir)/wwwroot/blazorapp1/" />
+  </Target>
+  <Target Condition="'$(Configuration)'=='Release'" Name="CopyFrontendAfterPublish" AfterTargets="Publish">
+      <Copy SourceFolders="$(ProjectDir)/wwwroot/" DestinationFolder="$(PublishDir)/wwwroot/" />
+  </Target>
+</Project>
