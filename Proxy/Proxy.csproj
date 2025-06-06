@@ -12,8 +12,10 @@
       <PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />
       <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
   </ItemGroup>
+  <Target Name="RemoveWWWROOT" BeforeTargets="BeforeBuild">
+      <Delete Files="$(OutDir)/wwwroot/" />
+  </Target>
   <Target Condition="'$(Configuration)'=='Release'" Name="AddProcessEngineFrontend" AfterTargets="AfterBuild">
-        <Delete Files="$(OutDir)/wwwroot/" />
         <Exec WorkingDirectory="../BlazorApp1/" Command="dotnet publish --sc -c Release /p:RunAOTCompilation=true /p:WasmStripILAfterAOT=true" />
         <MakeDir Directories="$(OutDir)/wwwroot/blazorapp1" />
         <Copy SourceFolders="../BlazorApp1/bin/Release/net9.0/publish/wwwroot/blazorapp1/" DestinationFolder="$(ProjectDir)/wwwroot/blazorapp1/" />
