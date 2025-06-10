@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-    <StaticWebAssetBasePath>blazorapp1</StaticWebAssetBasePath>
+    <!--<StaticWebAssetBasePath>blazorapp1</StaticWebAssetBasePath>-->
   </PropertyGroup>
 
   <ItemGroup>
