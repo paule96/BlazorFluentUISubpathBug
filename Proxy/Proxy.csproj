@@ -13,12 +13,12 @@
       <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5" />
   </ItemGroup>
   <Target Name="RemoveWWWROOT" BeforeTargets="BeforeBuild">
-      <Delete Files="$(OutDir)/wwwroot/" />
+      <RemoveDir Directories="$(OutDir)/wwwroot/" />
   </Target>
   <Target Condition="'$(Configuration)'=='Release'" Name="AddProcessEngineFrontend" AfterTargets="AfterBuild">
         <Exec WorkingDirectory="../BlazorApp1/" Command="dotnet publish --sc -c Release /p:RunAOTCompilation=true /p:WasmStripILAfterAOT=true" />
         <MakeDir Directories="$(OutDir)/wwwroot/blazorapp1" />
-        <Copy SourceFolders="../BlazorApp1/bin/Release/net9.0/publish/wwwroot/blazorapp1/" DestinationFolder="$(ProjectDir)/wwwroot/blazorapp1/" />
+        <Copy SourceFolders="../BlazorApp1/bin/Release/net9.0/publish/wwwroot/" DestinationFolder="$(ProjectDir)/wwwroot/blazorapp1/" />
   </Target>
   <Target Condition="'$(Configuration)'=='Release'" Name="CopyFrontendAfterPublish" AfterTargets="Publish">
       <Copy SourceFolders="$(ProjectDir)/wwwroot/" DestinationFolder="$(PublishDir)/wwwroot/" />
